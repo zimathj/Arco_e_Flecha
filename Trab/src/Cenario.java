@@ -86,7 +86,7 @@ public class Cenario {
 		panel.setBackground(new Color(0, 0, 0));
 		panel.setBounds(-27, 500, 1500, 103);
 		frame.getContentPane().add(panel);
-		
+				
 		labelAngulo = new JLabel("");
 		labelAngulo.setFont(new Font("L M Roman Caps10", Font.BOLD, 12));
 		frame.getContentPane().add(labelAngulo);
@@ -114,6 +114,8 @@ public class Cenario {
 				forca = 0;
 				if (jogo.getJogador1().getPontos() >= 5) {
 					walkable = false;
+					labelForca.setVisible(false);
+					lblDistncia.setVisible(false);
 					time = (int) System.currentTimeMillis();
 				}
 			}
@@ -148,6 +150,8 @@ public class Cenario {
 				int code = e.getKeyCode();
 				if (code == KeyEvent.VK_RIGHT) {
 					if (walkable == true && jogo.getJogador().getPontos() > 0 && jogo.getJogador1().getX() < muro.getX() - 10) {
+						labelForca.setVisible(false);
+						lblDistncia.setVisible(false);
 						right();
 						getAngulo();
 					}
@@ -155,6 +159,8 @@ public class Cenario {
 				if (code == KeyEvent.VK_LEFT) {
 					// FALTA CONDICAO DO JOGADOR DA DIREITA NAO PODER SAIR DA TELA
 					if (walkable == true && jogo.getJogador().getPontos() > 0 && jogo.getJogador1().getX() > 0) {
+						labelForca.setVisible(false);
+						lblDistncia.setVisible(false);
 						left();		
 						getAngulo();
 					}
@@ -276,7 +282,7 @@ public class Cenario {
 			posX = vox * t;
 			posY = 515 + voy*t - 0.5*(9.8)*t*t;
 			System.out.println("Y: " + posY);
-			t+=0.005;
+			t++;
 		}
 		System.out.println("X: " + posX);
 		System.out.println("Y: " + posY);
