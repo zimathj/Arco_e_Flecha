@@ -33,7 +33,7 @@ public class Jogador {
 		label.setIcon(new ImageIcon(img));
 		
 		progressBar = new JProgressBar();
-		progressBar.setBackground(Color.BLUE);
+		progressBar.setBackground(Color.GRAY);
 		progressBar.setForeground(Color.BLUE);
 		progressBar.setOrientation(SwingConstants.VERTICAL);
 	}
@@ -49,7 +49,8 @@ public class Jogador {
 	public void setX(int posX) {
 		this.x = posX;
 		label.setBounds(x, 480, 10, 20);
-		progressBar.setBounds(x-10, 465, 5, hp/4);
+		progressBar.setBounds(x-10, 465, 5, 25);
+		progressBar.setValue(100);
 	}
 	
 	public int getX() {
@@ -66,13 +67,18 @@ public class Jogador {
 	public void setHP(int hp) {
 		if (hp > 100) {
 			this.hp = 100;
+			progressBar.setValue(100);
 		}
-		else if  (hp < 0) {
+		else if  (hp <= 0) {
 			this.hp = 0;
+			progressBar.setValue(0);
 			vivo = false;
+			Cenario.close();
+			TelaFim.startWindow(nome);
 		}
 		else {
 			this.hp = hp;
+			progressBar.setValue(hp);
 		}
 	}
 	

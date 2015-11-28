@@ -33,4 +33,5 @@ public class Jogo {
 	public void atualizarCenario() {
 		Cenario.atualizarCenario(this);
 	}
+
 }

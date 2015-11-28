@@ -30,6 +30,7 @@ import java.awt.event.MouseMotionAdapter;
 public class Cenario {
 	
 	private static JFrame frame;
+	static Cenario window;
 	private Muro muro = new Muro();
 	static JLabel labelPontos;
 	static Jogo jogo;
@@ -43,20 +44,25 @@ public class Cenario {
 	double angulo, oposto, hip, sine;
 	JLabel labelAngulo;
 	JLabel labelForca;
-	JLabel lblDistncia;	
+	JLabel lblDistncia;
 
 	
 	public static void cenario(final Jogo jogo) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cenario window = new Cenario(jogo);
+					window = new Cenario(jogo);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+	}
+	
+	public static void close() {
+		window.frame.setVisible(false);
+		window.frame.dispose();
 	}
 
 	public Cenario(Jogo jogo) {
@@ -156,6 +162,11 @@ public class Cenario {
 				if (code == KeyEvent.VK_S) {
 					Loja.loja(jogo);
 				}
+				if (code == KeyEvent.VK_D) {
+					// Teste da barra retirar dps
+					jogo.getJogador1().setHP(jogo.getJogador1().getHP() - 25);;
+				}
+
 			}
 		});
 		
@@ -253,31 +264,44 @@ public class Cenario {
 	public int calcularDistancia() {
 		System.out.println("Teste");
 		// Componentes independentes
-		int vxi = (int) Math.ceil(forca * Math.cos(Math.toRadians(angulo)));
-		System.out.println(vxi);
-		int vyi = (int) Math.ceil(forca * Math.sin(Math.toRadians(angulo)));
-		System.out.println(vyi);
+		int vox = (int) Math.ceil(forca * Math.cos(Math.toRadians(angulo)));
+		System.out.println(vox);
+		System.out.println(Math.cos(Math.toRadians(angulo)));
+		int voy = (int) Math.ceil(forca * Math.sin(Math.toRadians(angulo)));
+		System.out.println(voy);
+		System.out.println(Math.sin(Math.toRadians(angulo)));
+		double posX = 0.0,posY = 10000000.0;
+		double t = 0.0;
+		while(posY > 500) {
+			posX = vox * t;
+			posY = 515 + voy*t - 0.5*(9.8)*t*t;
+			System.out.println("Y: " + posY);
+			t+=0.005;
+		}
+		System.out.println("X: " + posX);
+		System.out.println("Y: " + posY);
+		System.out.println("T: " + t);
+		/*
 		// Tempo para chegar no chão
-		int time = (int) Math.ceil(Math.sqrt(((500 - 515 - vyi)/(0.5*(-9.8)))));
+		int time = (int) Math.ceil(Math.sqrt(((500 - 515 - voy)/(0.5*(-9.8)))));
 		System.out.println(time);
-		double dist = vxi * time; 
+		double dist = vox * time; 
 		System.out.println(dist);
 		double posX, posY;
-		int cont = 0;
 		for (double t = 0; t < time; t+=0.005) {
 			// Supostamente encontra a posição x e y da flecha em certo tempo (acho que tem que botar o 0.5 tbm pra ser igual a dist)
-			posX = vxi * t;
-			System.out.println("VYI: " + vyi);
-			System.out.println("T : " + t);
-			posY = ((vyi * t) - (0.5 * 9.8 * t * t));
-			cont+=1;
-			//System.out.println("X: " + Math.ceil(posX));
-			System.out.println("Y: " + Math.ceil(posY));
+			posX = voy * t;
+			//System.out.println("VYI: " + vyi);
+			//System.out.println("T : " + t);
+			posY = ((voy * t) - (0.5 * -9.8 * t * t));
+			System.out.println("X: " + Math.ceil(posX));
+			//System.out.println("Y: " + Math.ceil(posY));
 			//System.out.println(cont);
 		}
+		*/
 		// Melhorar esta implementaçã que mostra onde a flecha cai
-		lblDistncia.setText("Distância: " + Math.ceil(dist));
-		lblDistncia.setBounds((int) (jogo.getJogador1().getX() + dist), 416, 120, 45);
+		lblDistncia.setText("Distância: " + Math.ceil(posX));
+		lblDistncia.setBounds((int) (jogo.getJogador1().getX() + posX), 416, 120, 45);
 		lblDistncia.setVisible(true);
 		return 0;
 	}
