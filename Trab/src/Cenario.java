@@ -86,6 +86,7 @@ public class Cenario {
 		panel.setBackground(new Color(0, 0, 0));
 		panel.setBounds(-27, 500, 1500, 103);
 		frame.getContentPane().add(panel);
+		
 				
 		labelAngulo = new JLabel("");
 		labelAngulo.setFont(new Font("L M Roman Caps10", Font.BOLD, 12));
@@ -256,11 +257,12 @@ public class Cenario {
 		*/
 		oposto = 515 - yMouse;
 		hip = Math.sqrt(
-	            Math.pow(xMouse - jogo.getJogador1().getX() - 10, 2) +
+	            Math.pow(xMouse - jogo.getJogador1().getX() - 12, 2) +
 	            Math.pow(yMouse - 515, 2) );
 		sine = oposto/hip;
 		labelAngulo.setBounds(xMouse, yMouse - 60, 50, 50);
 		//System.out.println(sine);
+		//labelAngulo.setText(Integer.toString(yMouse));
 		labelAngulo.setText(Double.toString(Math.ceil(Math.toDegrees(Math.asin(sine)))) + "°");
 		//System.out.println(Double.toString(Math.ceil(Math.toDegrees(Math.asin(sine)))));
 		return Math.ceil(Math.toDegrees(Math.asin(sine)));
@@ -281,12 +283,17 @@ public class Cenario {
 		while(posY > 500) {
 			posX = vox * t;
 			posY = 515 + voy*t - 0.5*(9.8)*t*t;
+			if (posY <= 600 && posX + jogo.getJogador1().getX() <= muro.getX() + 10 && posX + jogo.getJogador1().getX() >= muro.getX() - 10) {
+				System.out.println("Bateu no muro");
+				break;
+			}
+			System.out.println("X: " + posX);
 			System.out.println("Y: " + posY);
-			t++;
+			t += 0.005;
 		}
 		System.out.println("X: " + posX);
 		System.out.println("Y: " + posY);
-		System.out.println("T: " + t);
+		//System.out.println("T: " + t);
 		/*
 		// Tempo para chegar no chão
 		int time = (int) Math.ceil(Math.sqrt(((500 - 515 - voy)/(0.5*(-9.8)))));
@@ -305,7 +312,7 @@ public class Cenario {
 			//System.out.println(cont);
 		}
 		*/
-		// Melhorar esta implementaçã que mostra onde a flecha cai
+		// Melhorar esta implementação que mostra onde a flecha cai
 		lblDistncia.setText("Distância: " + Math.ceil(posX));
 		lblDistncia.setBounds((int) (jogo.getJogador1().getX() + posX), 416, 120, 45);
 		lblDistncia.setVisible(true);

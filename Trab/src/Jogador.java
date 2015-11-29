@@ -27,7 +27,7 @@ public class Jogador {
 		this.nome = nome;
 		vivo = true;
 		hp = 100;
-		pontos = 10;
+		pontos = 100000;
 		label = new JLabel("");
 		Image img = new ImageIcon(this.getClass().getResource("/teste.png")).getImage(); 
 		label.setIcon(new ImageIcon(img));
